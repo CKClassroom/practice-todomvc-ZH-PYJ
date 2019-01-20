@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { TodoFilterPipe } from './todo-filter.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TodoFilterPipe
   ],
   imports: [
     BrowserModule,

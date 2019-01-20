@@ -11,7 +11,8 @@ export class AppComponent {
   todos: Todo [] = [];
   newTodo = '';
   maxId = 0;
-  isCompleted: boolean;
+  filterCondition = 'All';
+
   // new added
   addTodo(newInput) {
     this.todos.push({
@@ -44,7 +45,7 @@ export class AppComponent {
     // return this.todos.filter(todo => !todo.isCompleted).length;
     const unCompletedTodos: Todo[] = [];
     this.todos.forEach(todo => {
-      if (!todo.isCompleted) { unCompletedTodos.push(todo);}
+      if (!todo.isCompleted) { unCompletedTodos.push(todo); }
     });
     return unCompletedTodos.length;
   }
@@ -56,7 +57,7 @@ export class AppComponent {
 }
 
 
-interface Todo {
+export interface Todo {
   id: number;
   prop: string;
   isCompleted: boolean;
