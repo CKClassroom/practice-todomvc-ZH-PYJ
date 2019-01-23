@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,35 +10,43 @@ export class AppComponent {
   title = 'practice';
   todoPlaceholder = 'What needs to be done?';
   todos: Todo [] = [];
-  newTodo = '';
   maxId = 0;
   filterCondition = 'All';
 
   // new added
-  addTodo(newInput) {
+  addTodo(newTodo) {
     this.todos.push({
       id: ++this.maxId,
-      prop: this.newTodo,
+      prop: newTodo,
       isCompleted: false,
       isEditing: false
     });
-    newInput.value = '';
     console.log(this.todos);
+    this.todos = this.todos.slice();
   }
   // toggle completed
   toggleCompleted(todo: Todo) {
-      todo.isCompleted = !todo.isCompleted;
+       todo.isCompleted = !todo.isCompleted;
+      // this.todos = [...this.todos];
+       this.todos = this.todos.slice();
+
+      // this.todos = this.todos.map( x => {
+      //  if (x.id === todo.id) {
+      //   x.isCompleted = !x.isCompleted;
+      //  }
+      //  return x;
+      // });
   }
   // remove todo
-  removeTodo(todo: Todo, idx: number) {
-    // this.todos = this.todos.filter(x => x.id !== todo.id);
+  removeTodo(todo: Todo, idx) {
+     // this.todos = this.todos.filter(x => x.id !== todo.id);
     this.todos.splice(idx, 1);
-    console.log(this.todos);
+    this.todos = this.todos.slice();
   }
 
   // toggleAll
   toggleAll() {
-    this.todos.forEach(todo => todo.isCompleted = !todo.isCompleted);
+    this.todos.forEach(todo => todo.isCompleted = true);
   }
 
   // todoCount
@@ -54,6 +63,7 @@ export class AppComponent {
   clearCompleted() {
     this.todos = this.todos.filter(todo => !todo.isCompleted);
   }
+
 }
 
 
