@@ -1,0 +1,42 @@
+<section class="todoapp">
+    <app-header [title] = "title"
+    [todoPlaceholder]= "todoPlaceholder"
+    (newTodoAdd)="addTodo($event)" ></app-header>
+  <!-- This section should be hidden by default and shown when there are todos -->
+  <section class="main" *ngIf="todos.length> 0">
+    <input class="toggle-all" type="checkbox" (click)="toggleAll()">
+    <label for="toggle-all">Mark all as complete</label>
+    <ul class="todo-list">
+      <!-- These are here just to show the structure of the list items -->
+      <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+      <li [ngClass]="{'completed':todo.isCompleted, 'editing': todo.isEditing}"
+      *ngFor="let todo of (todos | todoFilter: filterCondition); index as idx">
+        <div class="view" >
+          <input class="toggle" type="checkbox" [checked]= "todo.isCompleted"
+          (click) = "toggleCompleted(todo)"
+          />
+          <label (dblclick)="todo.isEditing = true;">{{todo.prop}}</label>
+          <button class="destroy" (click)="removeTodo(todo, idx)"></button>
+        </div>
+        <input class="edit" [class.editing]="todo.isEditing"
+        [ngModel] = "todo.prop" (ngModelChange) = "todo.prop = $event"
+        (blur)="todo.isEditing = false;"
+        (keyup.enter)="todo.isEditing = false;"/>
+      </li>
+    </ul>
+  </section>
+
+  <!-- This footer should hidden by default and shown when there are todos -->
+<footer class="footer" [hidden] = "todos.length === 0">
+
+    <!-- This should be `0 items left` by default -->
+    <span class="todo-count"><strong>{{todoCount()}}</strong> item left</span>
+
+    <!-- <app-footer-filter [filterCondition]= "filterCondition"  (filterConditionChange) = "filterCondition = $event"> -->
+      <app-footer-filter  [(filterCondition)]="filterCondition">
+    </app-footer-filter>
+    <!-- Hidden if no completed items are left ↓ -->
+    <button class="clear-completed" (click)="clearCompleted()">Clear completed</button>
+</footer>
+</section>
+<app-footer></app-footer>
